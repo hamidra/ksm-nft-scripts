@@ -3,8 +3,8 @@ const { ApiPromise, WsProvider } = require('@polkadot/api');
 
 const wsURI =
   process.env.ChainURI || 'wss://kusama-statemine-rpc.paritytech.net';
-const seed =
-  process.env.AccountSeed || '';
+const seed = process.env.AccountSeed || '';
+const proxiedAddress = process.env.ProxiedAddress || '';
 
 module.exports = {
   wsURI: wsURI,
@@ -15,6 +15,6 @@ module.exports = {
     const api = await ApiPromise.create({ provider: wsProvider });
     await api.isReady;
     const signingPair = keyring.createFromUri(seed);
-    return { api, keyring, signingPair };
+    return { api, keyring, signingPair, proxiedAddress };
   },
 };

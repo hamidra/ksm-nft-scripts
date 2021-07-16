@@ -6,7 +6,7 @@ const csv = require('csv/lib/sync');
 const path = require('path');
 
 let addressIndex = 1;
-let batchSize = 1000;
+let batchSize = 800;
 let totalCount = 3333;
 let classId = 2;
 
@@ -29,7 +29,7 @@ let readAddresses = async (hasHeader = false) => {
 };
 
 let mintClassInstances = async () => {
-  const { api, signingPair } = await connect();
+  const { api, signingPair, proxiedAddress } = await connect();
   let addresses = await readAddresses();
   if (addresses.length != totalCount) {
     throw new Error(
@@ -53,7 +53,8 @@ let mintClassInstances = async () => {
       `Sending batch number ${batchNo} for instanceIds ${startInstanceId}:${instanceId}`
     );
     let txBatch = api.tx.utility.batchAll(txs);
-    await signAndSendTx(api, txBatch, signingPair);
+    let proxyCall = api.tx.proxy.proxy(proxiedAddress, 'Assets', txBatch);
+    await signAndSendTx(api, proxyCall, signingPair);
     console.log(`batch number ${batchNo} finished!`);
     batchNo += 1;
   }

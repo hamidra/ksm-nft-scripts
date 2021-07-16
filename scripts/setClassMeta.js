@@ -3,7 +3,7 @@ const { seed, connect } = require('./chain');
 const { signAndSendTx } = require('./txHandler');
 
 let setClassMetaData = async () => {
-  const { api, signingPair } = await connect();
+  const { api, signingPair, proxiedAddress } = await connect();
 
   const classmeta = [
     {
@@ -30,8 +30,9 @@ let setClassMetaData = async () => {
   }
 
   let txBatch = api.tx.utility.batch(txs);
+  let proxyCall = api.tx.proxy.proxy(proxiedAddress, 'Assets', txBatch);
   console.log(`sending batch tx with hash ${txBatch.toHex()}`);
-  await signAndSendTx(api, txBatch, signingPair);
+  await signAndSendTx(api, proxyCall, signingPair);
 };
 
 setClassMetaData()
