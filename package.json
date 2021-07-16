@@ -1,0 +1,15 @@
+{
+  "name": "NFT-campaign-scripts",
+  "version": "1.0.0",
+  "description": "scripts to run kusama nft campaign",
+  "main": "index.js",
+  "repository": "https://github.com/hamidra/NFT-campaign-scripts.git",
+  "author": "Hamid Alipour",
+  "license": "MIT",
+  "dependencies": {
+    "@polkadot/api": "^5.0.1",
+    "@polkadot/keyring": "^7.0.1",
+    "@polkadot/util-crypto": "^7.0.1",
+    "csv": "^5.5.0"
+  }
+}
