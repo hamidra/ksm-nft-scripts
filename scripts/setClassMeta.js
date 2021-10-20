@@ -1,6 +1,6 @@
 const { exit } = require('process');
-const { seed, connect } = require('./chain');
-const { signAndSendTx } = require('./txHandler');
+const { seed, connect } = require('./chain/chain');
+const { signAndSendTx } = require('./chain/txHandler');
 
 let setClassMetaData = async () => {
   const { api, signingPair, proxiedAddress } = await connect();

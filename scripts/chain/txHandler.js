@@ -8,7 +8,7 @@ const decodeResult = (api, result) => {
       const decoded = api.registry.findMetaError(dispatchError.asModule);
       const { documentation, name, section } = decoded;
 
-      error = `${section}.${name}: ${documentation.join(' ')}`;
+      error = `${section}.${name}: ${doc?.join(' ')}`;
     } else {
       // Other, CannotLookup, BadOrigin, no extra info
       error = dispatchError.toString();

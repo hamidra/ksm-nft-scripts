@@ -1,5 +1,5 @@
-const { seed, connect } = require('./chain');
-const { signAndSendTx } = require('./txHandler');
+const { seed, connect } = require('./chain/chain-statemine');
+const { signAndSendTx } = require('./chain/txHandler');
 
 const fs = require('fs');
 const csv = require('csv/lib/sync');
@@ -7,13 +7,13 @@ const path = require('path');
 
 let addressIndex = 1;
 let batchSize = 800;
-let totalCount = 3333;
-let classId = 2;
+let totalCount = 68;
+let classId = 11;
 
 let readAddresses = async (hasHeader = false) => {
   let input = path.join(
     __dirname,
-    `../data/secrets-with-address${classId}.csv`
+    `../data/Parity-Anniversary/secrets-with-address${classId}.csv`
   );
   const data = fs.readFileSync(input);
 
@@ -53,8 +53,11 @@ let mintClassInstances = async () => {
       `Sending batch number ${batchNo} for instanceIds ${startInstanceId}:${instanceId}`
     );
     let txBatch = api.tx.utility.batchAll(txs);
-    let proxyCall = api.tx.proxy.proxy(proxiedAddress, 'Assets', txBatch);
-    await signAndSendTx(api, proxyCall, signingPair);
+    let call = proxiedAddress
+      ? api.tx.proxy.proxy(proxiedAddress, 'Assets', txBatch)
+      : txBatch;
+    await signAndSendTx(api, call, signingPair);
+    console.log(call.toHuman());
     console.log(`batch number ${batchNo} finished!`);
     batchNo += 1;
   }

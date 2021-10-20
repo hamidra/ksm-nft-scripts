@@ -1,5 +1,5 @@
-const { seed, connect } = require('./chain');
-const { signAndSendTx } = require('./txHandler');
+const { seed, connect } = require('./chain/chain-statemine');
+const { signAndSendTx } = require('./chain/txHandler');
 
 const fs = require('fs');
 const csv = require('csv/lib/sync');
@@ -7,13 +7,13 @@ const path = require('path');
 
 let addressIndex = 1;
 let batchSize = 800;
-let totalCount = 9999;
-let amount = '';
+let totalCount = 173;
+let amount = '50000000';
 
-let readAddresses = async (hasHeader = true) => {
+let readAddresses = async (hasHeader = false) => {
   let input = path.join(
     __dirname,
-    `../data/test/test-secrets-with-address.csv`
+    `../data/Parity-Anniversary/secrets-with-address.csv`
   );
   const data = fs.readFileSync(input);
 
@@ -52,7 +52,7 @@ let transferFunds = async () => {
     console.log(
       `Sending batch number ${batchNo} for instanceIds ${startInstanceId}:${instanceId}`
     );
-    let txBatch = api.tx.utility.batch(txs);
+    let txBatch = api.tx.utility.batchAll(txs);
     await signAndSendTx(api, txBatch, signingPair);
     console.log(`batch number ${batchNo} finished!`);
     batchNo += 1;
