@@ -7,6 +7,7 @@
   "author": "Hamid Alipour",
   "license": "MIT",
   "dependencies": {
+    "@pinata/sdk": "^1.1.23",
     "@polkadot/api": "^6.4.2",
     "@polkadot/keyring": "^7.3.1",
     "@polkadot/util-crypto": "^7.3.1",
