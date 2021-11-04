@@ -1,24 +1,25 @@
-const { seed, connect } = require('./chain/chain-test');
+const { seed, connect } = require('./chain/chain-statemine');
 const { signAndSendTx } = require('./chain/txHandler');
 
 const fs = require('fs');
 const csv = require('csv/lib/sync');
 const path = require('path');
 
-let addressIndex = 1;
-let metaIndex = 2;
+let addressIndex = 4;
+let metaIndex = 6;
 let batchSize = 800;
-let totalCount = 97;
-let classId = 10;
+let totalCount = 68;
+let classId = 11;
+let className = '2-year';
+let input = path.join(
+  __dirname,
+  `../data/Parity-Anniversary/${className}-with-meta.csv`
+);
 
-let readMeta = async (hasHeader = false) => {
-  let input = path.join(
-    __dirname,
-    `../data/Parity-Anniversary/secrets-with-address${classId}.csv`
-  );
+let readMeta = async (hasHeader = true) => {
   const data = fs.readFileSync(input);
 
-  let records = csv.parse(data); // csv Stream is a read and write stream : it reads raw text in CSV and output untransformed records
+  let records = csv.parse(data);
   if (hasHeader) {
     records = records.slice(1);
   }
@@ -46,7 +47,6 @@ let mintClassInstances = async () => {
       }
       let asset = await api.query.uniques.asset(classId, instanceId);
       asset = asset?.unwrapOr(null);
-      console.log(asset?.toHuman());
       if (
         /*asset.owner?.toHuman() === records[instanceId][addressIndex]*/ asset
       ) {

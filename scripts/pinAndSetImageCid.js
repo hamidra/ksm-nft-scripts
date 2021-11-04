@@ -53,6 +53,8 @@ const pinAndSetImageCid = async (hasHeader = true) => {
         } else {
           data.push(result.IpfsHash);
         }
+      } else {
+        console.log(`${imagePath} does not exist.`);
       }
     }
   }
